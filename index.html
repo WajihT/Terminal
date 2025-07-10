@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wajih Tarkhani | Terminal Portfolio</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header class="site-header">
+    <h1>Wajih Tarkhani</h1>
+    <p>Software Developer</p>
+  </header>
+  <div class="layout">
+    <div class="left-panel">
+      <div class="id-card">
+        <img src="assets/profile.jpg" alt="Wajih's Photo" />
+        <div class="caption">[Interactive ID Card]</div>
+      </div>
+    </div>
+    <div class="right-panel">
+      <div class="top-bar">
+        <span class="link" onclick="handleCommand('help')">help</span> |
+        <span class="link" onclick="handleCommand('about')">about</span> |
+        <span class="link" onclick="handleCommand('projects')">projects</span> |
+        <span class="link" onclick="handleCommand('skills')">skills</span> |
+        <span class="link" onclick="handleCommand('experience')">experience</span> |
+        <span class="link" onclick="handleCommand('contact')">contact</span> |
+        <span class="link" onclick="handleCommand('education')">education</span> |
+        <span class="link" onclick="handleCommand('certifications')">certifications</span> |
+        <span class="link" onclick="handleCommand('leadership')">leadership</span> |
+        <span class="link" onclick="clearTerminal()">clear</span>
+      </div>
+      <div class="terminal" id="terminal">
+        <div class="line">you@portfolio:~$ <span class="typed-cmd"></span><input type="text" autofocus onkeydown="handleInput(event)" /></div>
+      </div>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div id="clock"></div>
+  </footer>
+  <script src="script.js"></script>
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const utcTime = now.toUTCString().split(' ')[4];
+      document.getElementById("clock").textContent = utcTime + " UTC";
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+</body>
+</html>

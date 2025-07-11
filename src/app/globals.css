@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --background: 0 0% 0%; /* Pure black */
+        --foreground: 0 0% 100%; /* Pure white */
+        --card: 0 0% 0%;
+        --card-foreground: 0 0% 100%;
+        --popover: 0 0% 0%;
+        --popover-foreground: 0 0% 100%;
+        --primary: 142 76% 36%; /* Terminal green */
+        --primary-foreground: 0 0% 0%;
+        --secondary: 240 3.7% 15.9%;
+        --secondary-foreground: 0 0% 98%;
+        --muted: 240 3.7% 15.9%;
+        --muted-foreground: 240 5% 64.9%;
+        --accent: 142 76% 36%;
+        --accent-foreground: 0 0% 0%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 142 76% 36%; /* Terminal green border */
+        --input: 0 0% 0%;
+        --ring: 142 76% 36%;
+        --radius: 0.5rem;
+    }
+
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-black text-white font-mono overflow-hidden;
+    }
+
+    html, body {
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+@layer components {
+    .terminal-green {
+        @apply text-green-500;
+    }
+
+    .terminal-blue {
+        @apply text-blue-400;
+    }
+
+    .terminal-border {
+        @apply border-green-700;
+    }
+
+    .blinking-cursor {
+        animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+        0%, 50% { opacity: 1; }
+        51%, 100% { opacity: 0; }
+    }
+}

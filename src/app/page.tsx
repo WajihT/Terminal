@@ -1,5 +1,5 @@
 'use client';
-
+import Script from 'next/script';
 import { useState, useEffect, useRef } from 'react';
 
 export default function Home() {
@@ -33,7 +33,11 @@ export default function Home() {
 
             <div className="w-3.5/6 flex flex-1 overflow-hidden flex-row">
                 <div className="flex flex-1 justify-center items-center bg-black border-r border-green-500 h-full p-0">
-                    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.26/build/spline-viewer.js"></script>
+                    <Script
+                        type="module"
+                        src="https://unpkg.com/@splinetool/viewer@1.10.26/build/spline-viewer.js"
+                        strategy="beforeInteractive"
+                    />
                     <spline-viewer
                         url="https://prod.spline.design/1ha29C6kFmluEZIp/scene.splinecode"
                         style={{ display: 'block', width: '100%', height: '100%' }}

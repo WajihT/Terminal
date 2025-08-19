@@ -48,8 +48,7 @@ export default function Home() {
             </header>
 
             <div className="flex flex-1 overflow-hidden flex-row h-[600px]">
-                <div
-                    className="flex flex-1 justify-center items-center bg-black border-r border-green-500 h-full p-0 overflow-hidden">
+                <div className="w-1/2 flex justify-center items-center bg-black border-r border-green-500 h-full p-0 overflow-hidden relative">
                     <script type="module"
                             src="https://unpkg.com/@splinetool/viewer@1.10.48/build/spline-viewer.js"></script>
                     <spline-viewer
@@ -59,12 +58,16 @@ export default function Home() {
                             height: '100%',
                             maxWidth: '200%',
                             maxHeight: '100%',
-                            transform: 'translateX(-3%)'
+                            transform: 'translateX(-28%)',
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            zIndex: 1
                         }}
                     ></spline-viewer>
                 </div>
 
-                <div className="w-1/2 h-full overflow-auto relative">
+                <div className="w-1/2 h-full overflow-auto relative z-10">
                     <TerminalInterface/>
                 </div>
             </div>

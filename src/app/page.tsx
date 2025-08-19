@@ -17,9 +17,11 @@ import {
     BookOpen,
     Trophy
 } from 'lucide-react';
+import LoadingSpinnerF1 from './LoadingSpinnerF1';
 
 export default function Home() {
     const [currentTime, setCurrentTime] = useState<string | null>(null);
+    const [splineLoaded, setSplineLoaded] = useState(false);
 
     useEffect(() => {
         const updateTime = () => {
@@ -40,6 +42,27 @@ export default function Home() {
         return () => clearInterval(interval);
     }, []);
 
+    useEffect(() => {
+        // Alternative loading method
+        const loadSpline = async () => {
+            try {
+                if (typeof window !== 'undefined' && !window.customElements.get('spline-viewer')) {
+                    const script = document.createElement('script');
+                    script.type = 'module';
+                    script.src = 'https://unpkg.com/@splinetool/viewer@1.10.48/build/spline-viewer.js';
+                    script.onload = () => setSplineLoaded(true);
+                    document.head.appendChild(script);
+                } else {
+                    setSplineLoaded(true);
+                }
+            } catch (error) {
+                console.error('Error loading Spline viewer:', error);
+            }
+        };
+
+        loadSpline();
+    }, []);
+
     return (
         <div className="flex flex-col w-full h-screen bg-black text-white overflow-hidden">
             <header className="p-4 border-b terminal-border text-center md:text-left">
@@ -48,25 +71,27 @@ export default function Home() {
             </header>
 
             <div className="flex flex-1 overflow-hidden flex-row h-[600px]">
-                <Script
-                    src="https://unpkg.com/@splinetool/viewer@1.10.48/build/spline-viewer.js"
-                    strategy="beforeInteractive"
-                />
                 <div className="w-1/2 flex justify-center items-center bg-black border-r border-green-500 h-full p-0 overflow-hidden relative">
-                    <spline-viewer
-                        url="https://prod.spline.design/1ha29C6kFmluEZIp/scene.splinecode"
-                        style={{
-                            width: '200%',
-                            height: '100%',
-                            maxWidth: '200%',
-                            maxHeight: '100%',
-                            transform: 'translateX(-28%)',
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            zIndex: 1
-                        }}
-                    ></spline-viewer>
+                    {splineLoaded ? (
+                        <spline-viewer
+                            url="https://prod.spline.design/1ha29C6kFmluEZIp/scene.splinecode"
+                            style={{
+                                width: '200%',
+                                height: '100%',
+                                maxWidth: '200%',
+                                maxHeight: '100%',
+                                transform: 'translateX(-28%)',
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                zIndex: 1
+                            }}
+                        ></spline-viewer>
+                    ) : (
+                        <div className="text-white text-center flex flex-col items-center justify-center">
+                            <LoadingSpinnerF1 size={64} className="text-green-500 mb-4" />
+                        </div>
+                    )}
                 </div>
 
                 <div className="w-1/2 h-full overflow-auto relative z-10">

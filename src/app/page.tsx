@@ -48,9 +48,11 @@ export default function Home() {
             </header>
 
             <div className="flex flex-1 overflow-hidden flex-row h-[600px]">
+                <Script
+                    src="https://unpkg.com/@splinetool/viewer@1.10.48/build/spline-viewer.js"
+                    strategy="beforeInteractive"
+                />
                 <div className="w-1/2 flex justify-center items-center bg-black border-r border-green-500 h-full p-0 overflow-hidden relative">
-                    <script type="module"
-                            src="https://unpkg.com/@splinetool/viewer@1.10.48/build/spline-viewer.js"></script>
                     <spline-viewer
                         url="https://prod.spline.design/1ha29C6kFmluEZIp/scene.splinecode"
                         style={{

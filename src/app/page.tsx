@@ -1,6 +1,22 @@
 'use client';
 import Script from 'next/script';
 import { useState, useEffect, useRef } from 'react';
+import {
+    Rocket,
+    Settings,
+    Briefcase,
+    GraduationCap,
+    Award,
+    Mail,
+    Shield,
+    HelpCircle,
+    User,
+    FolderOpen,
+    Code,
+    Phone,
+    BookOpen,
+    Trophy
+} from 'lucide-react';
 
 export default function Home() {
     const [currentTime, setCurrentTime] = useState<string | null>(null);
@@ -31,25 +47,30 @@ export default function Home() {
                 <p className="text-sm text-gray-400 font-mono">Software Developer</p>
             </header>
 
-            <div className="w-3.5/6 flex flex-1 overflow-hidden flex-row">
-                <div className="flex flex-1 justify-center items-center bg-black border-r border-green-500 h-full p-0">
-                    <Script
-                        type="module"
-                        src="https://unpkg.com/@splinetool/viewer@1.10.26/build/spline-viewer.js"
-                        strategy="beforeInteractive"
-                    />
+            <div className="flex flex-1 overflow-hidden flex-row h-[600px]">
+                <div
+                    className="flex flex-1 justify-center items-center bg-black border-r border-green-500 h-full p-0 overflow-hidden">
+                    <script type="module"
+                            src="https://unpkg.com/@splinetool/viewer@1.10.48/build/spline-viewer.js"></script>
                     <spline-viewer
                         url="https://prod.spline.design/1ha29C6kFmluEZIp/scene.splinecode"
-                        style={{ display: 'block', width: '100%', height: '100%' }}
+                        style={{
+                            width: '200%',
+                            height: '100%',
+                            maxWidth: '200%',
+                            maxHeight: '100%',
+                            transform: 'translateX(-3%)'
+                        }}
                     ></spline-viewer>
                 </div>
 
-                <div className="w-3/6 h-full overflow-auto relative">
-                    <TerminalInterface />
+                <div className="w-1/2 h-full overflow-auto relative">
+                    <TerminalInterface/>
                 </div>
             </div>
 
-            <footer className="p-2 border-t terminal-border bg-black text-xs terminal-green font-mono flex justify-between items-center">
+            <footer
+                className="p-2 border-t terminal-border bg-black text-xs terminal-green font-mono flex justify-between items-center">
                 <span>Wajih@portfolio:~$</span>
                 <span>{currentTime ?? 'Loading time...'}</span>
             </footer>
@@ -57,8 +78,13 @@ export default function Home() {
     );
 }
 
+interface CommandEntry {
+    command: string;
+    response: React.ReactNode;
+}
+
 function TerminalInterface() {
-    const [commandHistory, setCommandHistory] = useState([
+    const [commandHistory, setCommandHistory] = useState<CommandEntry[]>([
         {
             command: 'Welcome',
             response: `Hi, I'm Wajih Tarkhani, CS Student and soon to be CPTS certified.
@@ -69,7 +95,7 @@ Type 'help' to see available commands.`
     ]);
     const [currentCommand, setCurrentCommand] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
-    const [animatedLine, setAnimatedLine] = useState('');
+    const [animatedLine, setAnimatedLine] = useState<React.ReactNode>('');
     const [pendingCommand, setPendingCommand] = useState<string | null>(null);
     const terminalRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -79,87 +105,165 @@ Type 'help' to see available commands.`
         'contact', 'education', 'certifications', 'sudo', 'clear'
     ];
 
-    const commandMap: Record<string, string> = {
-        help: `\u200BAvailable commands:
-about          - Learn about me
-projects       - View my projects
-skills         - See my technical skills
-experience     - My work experience
-contact        - How to reach me
-education      - My educational background
-certifications - View my certifications
-leadership     - Leadership and community involvement
-clear          - Clear the terminal
-`,
-        about: ` Hey, I'm a 24-year-old Computer Science Student, Goldfinch and Canary lover, currently
-studying at TUM (Technical University of Munich) and currently working as a Working Student at Brainlab.
-I’m dedicated to build products that make a difference even a small one in someones daily life or let me have fun while 
-learning about new technologies. I'm also in my journey to get the CPTS (Certified Penetration Testing Specialist) certification.
-`,
-        projects: ` 🚀 Projects:
-1. F1 Dashboard
-   A modern web app for Formula 1 data analytics, providing race results, standings, and telemetry charts.
-   Technologies: React Native, Fast-F1, Flask API
-2. Portfolio V1
-   Designed and implemented a personal portfolio website to showcase projects and skills, 
-   incorporating responsive design principles and interactive elements.
-   Technologies: JavaScript, CSS, HTML, PHP
-3. Password Generator
-   Created a password generator that produces secure and customizable passwords, including options for length, 
-   character sets, and special symbols.
-   Technologies: TypeScript, Node.js, NPM
-4. Rock Paper Scissors
-   Developed an interactive rock-paper-scissors game with a simple interface, using JavaScript 
-   to handle game logic and random opponent choices.
-   Technologies: PostgreSQL, TypeScript, Next.js
-5. Create your Signature
-   Implemented a web-based signature generator that allows users to create personalized digital 
-   signatures with various fonts and styles.
-   Technologies: TypeScript, JavaScript, CSS
-6. Gamma Correction (beta version)
-   Built a gamma correction tool that adjusts the brightness and contrast of images, 
-   allowing users to process and enhance visual data with customizable parameters.
-   Technologies: C, Python, JavaScript, HTML, Makefile
-7. Subscriptions Tracker
-   Developed a subscription tracking app to help users manage recurring subscriptions, providing features 
-   like start date, recurrence, and payment method tracking.
-   Technologies: JavaScript, Tailwind, LocalStorage
-8. My Search Engine
-   Developed a search engine that efficiently indexes web pages and delivers accurate search results. 
-   Focused on optimizing search algorithms and delivering relevant information.
-9. Task List
-   Built a task management tool that allows users to organize, prioritize, and track tasks, featuring a simple UI 
-   for quick task creation and progress tracking.
-   Technologies: TypeScript, JavaScript, CSS.`,
-        skills: ` ⚙️ Skills & Technologies:
-- JavaScript, TypeScript, Python, Next.js
-- Java, MySQL, PostgreSQL, MongoDB, PowerBI
-- Angular, React, Node.js, Flask
-- Penetration Testing, Metasploit, Linux, OOP`,
-        experience: ` 💼 Work Experience:
-  
-- IT Working Student | Brainlab – IT Asset Management:  (Oct 2022 - Mar 2024)
-  Currently working with the Strategic and Digital IT team. Assisting in project management and contributing to 
-  the introduction of SuccessFactors services as an HR solution within the company.
-  
-- Software Developer | InterFace AG – Frontend/Backend Development (Apr 2024 - Mar 2025)
-  Working on developing and improving a patient portal.
-  
-- IT Working Student | Brainlab – Strategic & IT Office:  (Apr 2025 - Present)
-  Currently working with the Strategic and Digital IT team. Assisting in project management and contributing to 
-  the introduction of SuccessFactors services as an HR solution within the company.
-`,
-        education: " 🎓 Studied Computer Science at TUM, now pursuing Wirtschaftsinformatik.",
-        certifications: " 🏆 Certifications:" +
-            "- CPTS (Certified Penetration Testing Specialist) – in progress.",
-        contact: ` 📬 Contact:\nEmail: wajih.tarkhani.21@gmail.com\nGitHub: github.com/wijj9`,
-        sudo: ` sudo: Access Denied!.
+    const IconWrapper = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
+        <span className={`inline-flex items-center ${className}`}>{children}</span>
+    );
 
-╔════════════════════════════════════╗
-║       Access Not Authorized        ║
-║       this action has been         ║
-║       reported to the admin!       ║
-╚════════════════════════════════════╝`
+    const commandMap: Record<string, React.ReactNode> = {
+        help: (
+            <div className="space-y-1">
+                <div className="flex items-center gap-2 mb-2">
+                    <HelpCircle size={16} className="text-blue-400" />
+                    <span>Available commands:</span>
+                </div>
+                <div className="ml-6 space-y-1">
+                    <div>about          - Learn about me</div>
+                    <div>projects       - View my projects</div>
+                    <div>skills         - See my technical skills</div>
+                    <div>experience     - My work experience</div>
+                    <div>contact        - How to reach me</div>
+                    <div>education      - My educational background</div>
+                    <div>certifications - View my certifications</div>
+                    <div>leadership     - Leadership and community involvement</div>
+                    <div>clear          - Clear the terminal</div>
+                </div>
+            </div>
+        ),
+        about: (
+            <div className="flex items-start gap-2">
+                <User size={16} className="text-green-400 mt-1 flex-shrink-0" />
+                <span>Hey, I'm a 24-year-old Computer Science Student, Goldfinch and Canary lover, currently
+studying at TUM (Technical University of Munich) and currently working as a Working Student at Brainlab.
+I'm dedicated to build products that make a difference even a small one in someones daily life or let me have fun while
+learning about new technologies. I'm also in my journey to get the CPTS (Certified Penetration Testing Specialist) certification.</span>
+            </div>
+        ),
+        projects: (
+            <div className="space-y-3">
+                <div className="flex items-center gap-2 mb-3">
+                    <Rocket size={16} className="text-orange-400" />
+                    <span className="font-bold">Projects:</span>
+                </div>
+                <div className="ml-6 space-y-2">
+                    <div>1. F1 Dashboard</div>
+                    <div className="ml-4 text-gray-300">A modern web app for Formula 1 data analytics, providing race results, standings, and telemetry charts.</div>
+                    <div className="ml-4 text-gray-400">Technologies: React Native, Fast-F1, Flask API</div>
+
+                    <div>2. Portfolio V1</div>
+                    <div className="ml-4 text-gray-300">Designed and implemented a personal portfolio website to showcase projects and skills, incorporating responsive design principles and interactive elements.</div>
+                    <div className="ml-4 text-gray-400">Technologies: JavaScript, CSS, HTML, PHP</div>
+
+                    <div>3. Password Generator</div>
+                    <div className="ml-4 text-gray-300">Created a password generator that produces secure and customizable passwords, including options for length, character sets, and special symbols.</div>
+                    <div className="ml-4 text-gray-400">Technologies: TypeScript, Node.js, NPM</div>
+
+                    <div>4. Rock Paper Scissors</div>
+                    <div className="ml-4 text-gray-300">Developed an interactive rock-paper-scissors game with a simple interface, using JavaScript to handle game logic and random opponent choices.</div>
+                    <div className="ml-4 text-gray-400">Technologies: PostgreSQL, TypeScript, Next.js</div>
+
+                    <div>5. Create your Signature</div>
+                    <div className="ml-4 text-gray-300">Implemented a web-based signature generator that allows users to create personalized digital signatures with various fonts and styles.</div>
+                    <div className="ml-4 text-gray-400">Technologies: TypeScript, JavaScript, CSS</div>
+
+                    <div>6. Gamma Correction (beta version)</div>
+                    <div className="ml-4 text-gray-300">Built a gamma correction tool that adjusts the brightness and contrast of images, allowing users to process and enhance visual data with customizable parameters.</div>
+                    <div className="ml-4 text-gray-400">Technologies: C, Python, JavaScript, HTML, Makefile</div>
+
+                    <div>7. Subscriptions Tracker</div>
+                    <div className="ml-4 text-gray-300">Developed a subscription tracking app to help users manage recurring subscriptions, providing features like start date, recurrence, and payment method tracking.</div>
+                    <div className="ml-4 text-gray-400">Technologies: JavaScript, Tailwind, LocalStorage</div>
+
+                    <div>8. My Search Engine</div>
+                    <div className="ml-4 text-gray-300">Developed a search engine that efficiently indexes web pages and delivers accurate search results. Focused on optimizing search algorithms and delivering relevant information.</div>
+
+                    <div>9. Task List</div>
+                    <div className="ml-4 text-gray-300">Built a task management tool that allows users to organize, prioritize, and track tasks, featuring a simple UI for quick task creation and progress tracking.</div>
+                    <div className="ml-4 text-gray-400">Technologies: TypeScript, JavaScript, CSS.</div>
+                </div>
+            </div>
+        ),
+        skills: (
+            <div className="space-y-2">
+                <div className="flex items-center gap-2 mb-2">
+                    <Settings size={16} className="text-purple-400" />
+                    <span className="font-bold">Skills & Technologies:</span>
+                </div>
+                <div className="ml-6 space-y-1">
+                    <div>- JavaScript, TypeScript, Python, Next.js</div>
+                    <div>- Java, MySQL, PostgreSQL, MongoDB, PowerBI</div>
+                    <div>- Angular, React, Node.js, Flask</div>
+                    <div>- Penetration Testing, Metasploit, Linux, OOP</div>
+                </div>
+            </div>
+        ),
+        experience: (
+            <div className="space-y-3">
+                <div className="flex items-center gap-2 mb-3">
+                    <Briefcase size={16} className="text-blue-400" />
+                    <span className="font-bold">Work Experience:</span>
+                </div>
+                <div className="ml-6 space-y-3">
+                    <div>
+                        <div className="font-semibold">- IT Working Student | Brainlab – IT Asset Management: (Oct 2022 - Mar 2024)</div>
+                        <div className="ml-4 text-gray-300">Currently working with the Strategic and Digital IT team. Assisting in project management and contributing to the introduction of SuccessFactors services as an HR solution within the company.</div>
+                    </div>
+
+                    <div>
+                        <div className="font-semibold">- Software Developer | InterFace AG – Frontend/Backend Development (Apr 2024 - Mar 2025)</div>
+                        <div className="ml-4 text-gray-300">Working on developing and improving a patient portal.</div>
+                    </div>
+
+                    <div>
+                        <div className="font-semibold">- IT Working Student | Brainlab – Strategic & IT Office: (Apr 2025 - Present)</div>
+                        <div className="ml-4 text-gray-300">Currently working with the Strategic and Digital IT team. Assisting in project management and contributing to the introduction of SuccessFactors services as an HR solution within the company.</div>
+                    </div>
+                </div>
+            </div>
+        ),
+        education: (
+            <div className="flex items-start gap-2">
+                <GraduationCap size={16} className="text-yellow-400 mt-1 flex-shrink-0" />
+                <span>Studied Computer Science at TUM, now pursuing Wirtschaftsinformatik.</span>
+            </div>
+        ),
+        certifications: (
+            <div className="space-y-2">
+                <div className="flex items-center gap-2 mb-2">
+                    <Award size={16} className="text-yellow-400" />
+                    <span className="font-bold">Certifications:</span>
+                </div>
+                <div className="ml-6">
+                    <div>- CPTS (Certified Penetration Testing Specialist) – in progress.</div>
+                </div>
+            </div>
+        ),
+        contact: (
+            <div className="space-y-2">
+                <div className="flex items-center gap-2 mb-2">
+                    <Mail size={16} className="text-red-400" />
+                    <span className="font-bold">Contact:</span>
+                </div>
+                <div className="ml-6 space-y-1">
+                    <div>Email: wajih.tarkhani.21@gmail.com</div>
+                    <div>GitHub: github.com/wijj9</div>
+                </div>
+            </div>
+        ),
+        sudo: (
+            <div className="space-y-2">
+                <div className="flex items-center gap-2 mb-2">
+                    <Shield size={16} className="text-red-500" />
+                    <span>sudo: Access Denied!</span>
+                </div>
+                <div className="border border-gray-600 p-3 mt-2">
+                    <div className="text-center space-y-1">
+                        <div>Access Not Authorized</div>
+                        <div>this action has been</div>
+                        <div>reported to the admin!</div>
+                    </div>
+                </div>
+            </div>
+        )
     };
 
     const scrollToBottom = () => {
@@ -168,18 +272,10 @@ learning about new technologies. I'm also in my journey to get the CPTS (Certifi
         }
     };
 
-    const typeResponse = (text: string, callback: () => void) => {
-        let i = 0;
-        setAnimatedLine('');
-        const interval = setInterval(() => {
-            setAnimatedLine((prev) => prev + text[i]);
-            scrollToBottom();
-            i++;
-            if (i >= text.length) {
-                clearInterval(interval);
-                callback();
-            }
-        }, 10);
+    const typeResponse = (content: React.ReactNode, callback: () => void) => {
+        // For React nodes, we'll just show them immediately instead of typing animation
+        setAnimatedLine(content);
+        setTimeout(callback, 100); // Small delay to simulate typing
     };
 
     const handleCommand = async (command: string) => {
@@ -196,7 +292,10 @@ learning about new technologies. I'm also in my journey to get the CPTS (Certifi
         }
 
         setPendingCommand(cmd);
-        const result = commandMap[cmd] || `Command '${cmd}' not found. Type 'help' to see available commands.`;
+        const result = commandMap[cmd] || (
+            <span>Command '{cmd}' not found. Type 'help' to see available commands.</span>
+        );
+
         typeResponse(result, () => {
             setCommandHistory(prev => [...prev, { command: cmd, response: result }]);
             setCurrentCommand('');
@@ -259,8 +358,12 @@ learning about new technologies. I'm also in my journey to get the CPTS (Certifi
                             <span className="text-[#15803d]">{entry.command}</span>
                         </div>
                         {entry.response && (
-                            <div className="response mt-1 text-white whitespace-pre-wrap">
-                                {entry.response}
+                            <div className="response mt-1 text-white">
+                                {typeof entry.response === 'string' ? (
+                                    <div className="whitespace-pre-wrap">{entry.response}</div>
+                                ) : (
+                                    entry.response
+                                )}
                             </div>
                         )}
                     </div>
@@ -271,7 +374,13 @@ learning about new technologies. I'm also in my journey to get the CPTS (Certifi
                             <span className="terminal-blue mr-2">Wajih@portfolio:~$</span>
                             <span className="text-[#15803d]">{pendingCommand}</span>
                         </div>
-                        <div className="response mt-1 text-white whitespace-pre-wrap">{animatedLine}</div>
+                        <div className="response mt-1 text-white">
+                            {typeof animatedLine === 'string' ? (
+                                <div className="whitespace-pre-wrap">{animatedLine}</div>
+                            ) : (
+                                animatedLine
+                            )}
+                        </div>
                     </div>
                 )}
             </div>
